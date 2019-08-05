@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="template-server" />
+        <module name="template-forward-route" />
+        <module name="template-client" />
+        <module name="template-website" />
+        <module name="template-common" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="template-web" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="template-client" options="-parameters" />
+      <module name="template-common" options="-parameters" />
+      <module name="template-forward-route" options="-parameters" />
+      <module name="template-server" options="-parameters" />
+      <module name="template-web" options="-parameters" />
+      <module name="template-website" options="-parameters" />
+    </option>
+  </component>
+</project>
