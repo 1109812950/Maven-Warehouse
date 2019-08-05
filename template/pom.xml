@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.codeworkshop</groupId>
+    <artifactId>template</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0-SNAPSHOT</version>
+
+    <name>template</name>
+    <description>Spring Boot</description>
+
+
+    <!--版本控制-->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <java.version>1.8</java.version>
+
+        <swagger.version>2.9.2</swagger.version>
+
+        <zkclient.version>0.11</zkclient.version>
+
+        <okhttp.version>4.0.0</okhttp.version>
+
+        <protobuf.version>3.8.0</protobuf.version>
+        <fastjson.version>1.2.58</fastjson.version>
+        <guava.version>28.0-jre</guava.version>
+    </properties>
+
+    <!--从springboot继承默认值以及统一版本控制-->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.1.4.RELEASE</version>
+        <relativePath/>
+    </parent>
+
+    <modules>
+        <module>template-common</module>
+        <module>template-forward-route</module>
+        <module>template-client</module>
+        <module>template-server</module>
+        <module>template-website</module>
+    </modules>
+
+    <!--声明式管理，父POM不引用，统一版本-->
+    <dependencyManagement>
+        <dependencies>
+            <!--Spring Ecology-->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger2</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-swagger-ui</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
+
+            <!--Connector-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.101tec</groupId>
+                <artifactId>zkclient</artifactId>
+                <version>${zkclient.version}</version>
+            </dependency>
+
+            <!--network-->
+            <dependency>
+                <groupId>io.netty</groupId>
+                <artifactId>netty-all</artifactId>
+                <version>${netty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp.version}</version>
+            </dependency>
+
+            <!--Data-->
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
+            </dependency>
+
+
+            <!--Others-->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+
+            <!--Test-->
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!--静态代码检查工具，检查.class文件，不是.java-->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>findbugs-maven-plugin</artifactId>
+                    <version>3.0.5</version>
+                </plugin>
+
+                <!--统一版本升级工具-->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>versions-maven-plugin</artifactId>
+                    <version>2.7</version>
+                </plugin>
+
+                <!--打包源代码，团队内部使用，切不可对外开放-->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>3.1.0</version>
+                </plugin>
+
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>3.1.1</version>
+                </plugin>
+
+                <!--非SpringBoot web模块可以使用插件式tomcat-->
+                <plugin>
+                    <groupId>org.apache.tomcat.maven</groupId>
+                    <artifactId>tomcat7-maven-plugin</artifactId>
+                    <version>2.2</version>
+                </plugin>
+
+
+            </plugins>
+        </pluginManagement>
+    </build>
+</project>
+
+
+
+
+<!--
+   SpringBoot默认整合，直接在子POM调用就行：
+   调用格式：
+   <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>_ToolName_</artifactId>
+   </dependency>
+
+   _ToolName_:
+    Spring-boot
+    Spring-boot-test
+    spring-boot-test-autoconfigure
+    spring-boot-actuator
+    spring-boot-actuator-autoconfigure
+    spring-boot-autoconfigure-processor
+    spring-boot-configuration-metadata
+    spring-boot-configuration-processor
+    spring-boot-devtools
+    spring-boot-loader
+    spring-boot-loader-tools
+    spring-boot-properties-migrator
+    spring-boot-starter
+    spring-boot-starter-activemq
+    spring-boot-starter-actuator
+    spring-boot-starter-amqp
+    spring-boot-starter-aop
+    spring-boot-starter-artemis
+    spring-boot-starter-batch
+    spring-boot-starter-cache
+    spring-boot-starter-cloud-connectors
+    spring-boot-starter-data-cassandra
+    spring-boot-starter-data-cassandra-reactive
+    spring-boot-starter-data-couchbase
+    spring-boot-starter-data-couchbase-reactive
+    spring-boot-starter-data-elasticsearch
+    spring-boot-starter-data-jdbc
+    spring-boot-starter-data-jpa
+    spring-boot-starter-data-ldap
+    spring-boot-starter-data-mongodb
+    spring-boot-starter-data-mongodb-reactive
+    spring-boot-starter-data-redis
+    spring-boot-starter-data-redis-reactive
+    spring-boot-starter-data-neo4j
+    spring-boot-starter-data-rest
+    spring-boot-starter-data-solr
+    spring-boot-starter-freemarker
+    spring-boot-starter-groovy-templates
+    spring-boot-starter-hateoas
+    spring-boot-starter-integration
+    spring-boot-starter-jdbc
+    spring-boot-starter-jersey
+    spring-boot-starter-jetty
+    spring-boot-starter-jooq
+    spring-boot-starter-json
+    spring-boot-starter-jta-atomikos
+    spring-boot-starter-jta-bitronix
+    spring-boot-starter-log4j2
+    spring-boot-starter-logging
+    spring-boot-starter-mail
+    spring-boot-starter-mustache
+    spring-boot-starter-oauth2-client
+    spring-boot-starter-oauth2-resource-server
+    spring-boot-starter-reactor-netty
+    spring-boot-starter-quartz
+    spring-boot-starter-security
+    spring-boot-starter-test
+    spring-boot-starter-thymeleaf
+    spring-boot-starter-tomcat
+    spring-boot-starter-undertow
+    spring-boot-starter-validation
+    spring-boot-starter-web
+    spring-boot-starter-webflux
+    spring-boot-starter-websocket
+    spring-boot-starter-web-services
+-->
